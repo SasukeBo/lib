@@ -1,6 +1,7 @@
 package time
 
 import (
+	"errors"
 	"regexp"
 	"strings"
 	"time"
@@ -33,7 +34,7 @@ func ParseTime(v string, offset int) (*time.Time, error) {
 		return &t, nil
 	}
 
-	return nil, nil
+	return nil, errors.New("format not matched")
 }
 
 func init() {
