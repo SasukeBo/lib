@@ -2,19 +2,29 @@ package time
 
 import (
 	"testing"
+	"time"
 )
 
 func TestParseTime(t *testing.T) {
-	tStr1 := "2020-03-30 10:32:31"
-	tStr2 := "2020/03/30 10:32:31"
-	t1, err := ParseTime(tStr1, 8)
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Logf("t1 is %v\n", t1)
-	t2, err := ParseTime(tStr2, 8)
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Logf("t2 is %v\n", t2)
+	std := time.Date(2020, time.June, 2, 5, 45, 25, 0, time.UTC)
+	t.Run("Parse 2020-06-02 13:45:25", func(t *testing.T) {
+		ret := ParseTime("2020-06-02 13:45:25", 8)
+		if !std.Equal(*ret) {
+			t.Errorf("want %v \n got %v\n", std, ret)
+		}
+	})
+
+	t.Run("Parse 2020/06/02 13:45:25", func(t *testing.T) {
+		ret := ParseTime("2020/06/02 13:45:25", 8)
+		if !std.Equal(*ret) {
+			t.Errorf("want %v \n got %v\n", std, ret)
+		}
+	})
+
+	t.Run("Parse 20200602134525 type", func(t *testing.T) {
+		ret := ParseTime("20200602134525", 8)
+		if !std.Equal(*ret) {
+			t.Errorf("want %v \n got %v\n", std, ret)
+		}
+	})
 }
